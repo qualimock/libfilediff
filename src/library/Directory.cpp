@@ -21,8 +21,12 @@ bool Directory::load() {
 						continue;
 					}
 
-					std::cout << "Insert: " << entry.path() << " into " << m_path << std::endl;
-                    m_files.insert(std::make_pair(entry.path().filename(), computeHash(entry.path())));
+					try{
+						m_files.insert(std::make_pair(entry.path().filename(), computeHash(entry.path())));
+					} catch (const std::runtime_error& e) {
+						std::cout << "Skipping " << entry.path() << " due to lack of permissions" << std::endl;
+						continue;
+					}
                 }
             }
 
