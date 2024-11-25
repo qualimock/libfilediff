@@ -22,13 +22,14 @@ bool Directory::load() {
             for (const auto& entry : std::filesystem::directory_iterator(m_path)) {
                 if (std::filesystem::is_regular_file(entry.path())) {
 					if (std::filesystem::is_symlink(entry.path())) {
+						std::cout << "Skipping symlink " << entry.path().generic_string() << std::endl;
 						continue;
 					}
 
 					try{
 						m_files.insert(std::make_pair(entry.path().filename(), computeHash(entry.path())));
 					} catch (const std::runtime_error& e) {
-						std::cout << "Skipping " << entry.path() << " due to lack of permissions" << std::endl;
+						std::cout << "Skipping " << entry.path().generic_string() << " due to lack of permissions" << std::endl;
 						continue;
 					}
                 }
