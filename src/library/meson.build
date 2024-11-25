@@ -1,4 +1,5 @@
 library_sources = [
+  'Directory.cpp',
   'filediff.cpp',
 ]
 
