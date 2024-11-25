@@ -3,7 +3,8 @@
 #include <filesystem>
 #include <map>
 
-typedef std::map<std::string, std::string> FilesMap;
+//                    file path          file hash
+typedef std::map<std::filesystem::path, std::string> FilesMap;
 
 class Directory {
 	std::filesystem::path m_path;
