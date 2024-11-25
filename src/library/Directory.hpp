@@ -24,6 +24,6 @@ public:
 	Directory(const Directory&) = delete;
 	Directory& operator=(const Directory&) = delete;
 
-	const std::string name() const { return m_path; };
+	const std::string path() const { return m_path; };
 	const FilesMap& files() const { return m_files; };
 };
