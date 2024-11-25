@@ -5,12 +5,16 @@
 #include <xxh3.h>
 
 Directory::Directory()
-	: m_path("/usr/bin")
+	: m_path("/usr/bin/")
 {}
 
 Directory::Directory(const std::string& path)
 	: m_path(path)
-{}
+{
+	if (m_path.generic_string().back() != '/') {
+		m_path = std::filesystem::path(m_path.generic_string() + '/');
+	}
+}
 
 bool Directory::load() {
 	try {
