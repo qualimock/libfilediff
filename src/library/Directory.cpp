@@ -13,7 +13,28 @@ Directory::Directory(const std::string& path)
 {}
 
 bool Directory::load() {
-    return false;
+	try {
+        if (std::filesystem::exists(m_path) && std::filesystem::is_directory(m_path)) {
+            for (const auto& entry : std::filesystem::directory_iterator(m_path)) {
+                if (std::filesystem::is_regular_file(entry.path())) {
+					if (std::filesystem::is_symlink(entry.path())) {
+						continue;
+					}
+
+					std::cout << "Insert: " << entry.path() << " into " << m_path << std::endl;
+                    m_files.insert(std::make_pair(entry.path().filename(), computeHash(entry.path())));
+                }
+            }
+
+			return true;
+        } else {
+            std::cerr << "Directory does not exist or is not a directory." << std::endl;
+        }
+    } catch (const std::filesystem::filesystem_error& e) {
+        std::cerr << "Filesystem error: " << e.what() << "\n";
+    }
+
+	return false;
 }
 
 bool Directory::load(const std::string &path) {
