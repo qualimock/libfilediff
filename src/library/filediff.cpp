@@ -5,11 +5,11 @@
 #include <fstream>
 
 FilesMap compareDirectories(const Directory& dirA, const Directory& dirB) {
-	FilesMap diff;
-	std::set_symmetric_difference(dirA.files().begin(), dirA.files().end(),
-								  dirB.files().begin(), dirB.files().end(),
-								  std::inserter(diff, diff.begin()));
-	return diff;
+    FilesMap diff;
+    std::set_symmetric_difference(dirA.files().begin(), dirA.files().end(),
+                                  dirB.files().begin(), dirB.files().end(),
+                                  std::inserter(diff, diff.begin()));
+    return diff;
 }
 
 Chunks compareFiles(const std::filesystem::path& file1, const std::filesystem::path& file2) {
@@ -18,53 +18,53 @@ Chunks compareFiles(const std::filesystem::path& file1, const std::filesystem::p
 
     if (!f1.is_open() || !f2.is_open()) {
         std::cerr << "compareFiles: Unable to open one or both files!" << std::endl;
-		return Chunks();
+        return Chunks();
     }
 
-	f1.seekg(0);
+    f1.seekg(0);
     f2.seekg(0);
 
-	Chunks chunks;
+    Chunks chunks;
 
     char byte1, byte2;
-	std::streamoff begin, end;
-	bool foundCorruption = false;
+    std::streamoff begin, end;
+    bool foundCorruption = false;
 
     while (f1.get(byte1) && f2.get(byte2)) {
         if (byte1 != byte2 && !foundCorruption) {
-			begin = f1.tellg();
-			foundCorruption = true;
+            begin = f1.tellg();
+            foundCorruption = true;
         }
 
-		if (byte1 == byte2 && foundCorruption) {
-			end = f1.tellg();
-			chunks.push_back(std::make_pair(begin, end));
-			foundCorruption = false;
-		}
+        if (byte1 == byte2 && foundCorruption) {
+            end = f1.tellg();
+            chunks.push_back(std::make_pair(begin, end));
+            foundCorruption = false;
+        }
     }
 
     return chunks;
 }
 
 std::string showFileChunk(const std::filesystem::path& file, unsigned left, unsigned right, std::pair<unsigned, unsigned> chunk) {
-	unsigned from = chunk.first - left;
-	unsigned to = chunk.second + right;
+    unsigned from = chunk.first - left;
+    unsigned to = chunk.second + right;
 
-	std::ifstream f(file, std::ios::binary | std::ios::ate);
+    std::ifstream f(file, std::ios::binary | std::ios::ate);
 
-	if (!f.is_open()) {
-		std::cerr << "showFileChunk: Unable to open file" << std::endl;
-		return std::string();
-	}
+    if (!f.is_open()) {
+        std::cerr << "showFileChunk: Unable to open file" << std::endl;
+        return std::string();
+    }
 
-	f.seekg(from);
+    f.seekg(from);
 
-	char byte;
-	std::string buf;
+    char byte;
+    std::string buf;
 
-	while (f.get(byte) && f.tellg() != to+1) {
-		buf += byte;
-	}
+    while (f.get(byte) && f.tellg() != to+1) {
+        buf += byte;
+    }
 
-	return buf;
+    return buf;
 }

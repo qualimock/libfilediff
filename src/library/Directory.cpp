@@ -5,37 +5,37 @@
 #include <xxh3.h>
 
 Directory::Directory()
-	: m_path("/usr/bin/")
+    : m_path("/usr/bin/")
 {}
 
 Directory::Directory(const std::string& path)
-	: m_path(path)
+    : m_path(path)
 {
-	if (m_path.generic_string().back() != '/') {
-		m_path = std::filesystem::path(m_path.generic_string() + '/');
-	}
+    if (m_path.generic_string().back() != '/') {
+        m_path = std::filesystem::path(m_path.generic_string() + '/');
+    }
 }
 
 bool Directory::load() {
-	try {
+    try {
         if (std::filesystem::exists(m_path) && std::filesystem::is_directory(m_path)) {
             for (const auto& entry : std::filesystem::directory_iterator(m_path)) {
                 if (std::filesystem::is_regular_file(entry.path())) {
-					if (std::filesystem::is_symlink(entry.path())) {
-						std::cout << "Skipping symlink " << entry.path().generic_string() << std::endl;
-						continue;
-					}
+                    if (std::filesystem::is_symlink(entry.path())) {
+                        std::cout << "Skipping symlink " << entry.path().generic_string() << std::endl;
+                        continue;
+                    }
 
-					try{
-						m_files.insert(std::make_pair(entry.path().filename(), computeHash(entry.path())));
-					} catch (const std::runtime_error& e) {
-						std::cout << "Skipping " << entry.path().generic_string() << " due to lack of permissions" << std::endl;
-						continue;
-					}
+                    try{
+                        m_files.insert(std::make_pair(entry.path().filename(), computeHash(entry.path())));
+                    } catch (const std::runtime_error& e) {
+                        std::cout << "Skipping " << entry.path().generic_string() << " due to lack of permissions" << std::endl;
+                        continue;
+                    }
                 }
             }
 
-			return true;
+            return true;
         } else {
             std::cerr << "Directory does not exist or is not a directory." << std::endl;
         }
@@ -43,22 +43,22 @@ bool Directory::load() {
         std::cerr << "Filesystem error: " << e.what() << "\n";
     }
 
-	return false;
+    return false;
 }
 
 bool Directory::load(const std::string &path) {
-	if (!(std::filesystem::exists(path) || std::filesystem::is_directory(path))) {
-		return false;
-	}
+    if (!(std::filesystem::exists(path) || std::filesystem::is_directory(path))) {
+        return false;
+    }
 
-	clear();
-	m_path = path;
-	return load();
+    clear();
+    m_path = path;
+    return load();
 }
 
 void Directory::clear() {
-	m_path.clear();
-	m_files.clear();
+    m_path.clear();
+    m_files.clear();
 }
 
 
