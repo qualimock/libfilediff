@@ -3,9 +3,12 @@ library_sources = [
   'filediff.cpp',
 ]
 
+xxhash_dep = dependency('libxxhash', required : true)
+
 library = shared_library(
   'filediff',
   library_sources,
+  dependencies : [ xxhash_dep ],
   install : true
 )
 

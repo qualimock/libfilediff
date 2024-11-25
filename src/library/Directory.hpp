@@ -10,6 +10,8 @@ class Directory {
 
 	FilesMap m_files;
 
+	std::string computeHash(const std::string& file_path);
+
 public:
 	Directory();
 	Directory(const std::string& path);
