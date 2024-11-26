@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <xxh3.h>
+#include <algorithm>
 
 Directory::Directory()
     : m_path("/usr/bin/")
@@ -88,6 +89,14 @@ std::string Directory::computeHash(const std::string& file_path) {
     std::ostringstream result;
     result << std::hex << hash;
     return result.str();
+}
+
+FilesMap Directory::compareDirectories(const Directory& directory) {
+    FilesMap diff;
+    std::set_symmetric_difference(files().begin(), files().end(),
+                                  directory.files().begin(), directory.files().end(),
+                                  std::inserter(diff, diff.begin()));
+    return diff;
 }
 
 Chunks Directory::compareFiles(const std::filesystem::path& file) {

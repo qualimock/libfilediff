@@ -23,6 +23,7 @@ public:
     bool load();
     bool load(const std::string& path);
 
+    FilesMap compareDirectories(const Directory& directory);
     Chunks compareFiles(const std::filesystem::path& file);
 
     Directory(const Directory&) = delete;
