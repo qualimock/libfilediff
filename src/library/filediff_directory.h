@@ -6,7 +6,6 @@
 
 //                    file path          file hash
 typedef std::map<std::filesystem::path, std::string> FilesMap;
-typedef std::vector<std::pair<std::streamoff, std::streamoff>> Chunks;
 
 class Directory {
     std::filesystem::path m_path;
