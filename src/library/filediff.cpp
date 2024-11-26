@@ -3,6 +3,11 @@
 #include <iostream>
 #include <fstream>
 
+extern "C" Borders createBorders(long left, long right) {
+    Borders b{left, right};
+    return b;
+}
+
 std::string getFileChunk(const std::filesystem::path& file, unsigned left, unsigned right, std::pair<unsigned, unsigned> chunk) {
     unsigned from = chunk.first - left;
     unsigned to = chunk.second + right;
