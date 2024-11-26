@@ -49,6 +49,7 @@ bool Directory::load() {
 
 bool Directory::load(const std::string &path) {
     if (!(std::filesystem::exists(path) || std::filesystem::is_directory(path))) {
+        std::cerr << "Cannot load " << path << std::endl;
         return false;
     }
 
@@ -61,7 +62,6 @@ void Directory::clear() {
     m_path.clear();
     m_files.clear();
 }
-
 
 std::string Directory::computeHash(const std::string& file_path) {
     const size_t buffer_size = 8192;

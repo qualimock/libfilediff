@@ -3,17 +3,28 @@
 
 int main() {
     Directory systemDir;
-    Directory userDir("/home/qualimock/dev/filediff/scrambled/");
+    Directory userDir("/home/qualimock/dev/libfilediff/scrambled/");
 
-    systemDir.load();
-    userDir.load();
+    if (!systemDir.load()) {
+        std::cerr << "Cannot load system dir" << std::endl;
+        return -1;
+    }
 
-    auto diff = compareDirectories(systemDir, userDir);
+    if (!userDir.load()) {
+        std::cerr << "Cannot load user dir" << std::endl;
+        return -1;
+    }
+
+    auto diff = systemDir.compare(userDir);
 
     std::cout << std::endl << "Tampered files:" << std::endl;
+
     for (auto file : diff) {
         auto systemFile = systemDir.files().find(file.first);
         auto userFile = userDir.files().find(file.first);
+
+        auto chunks = compareFiles(systemDir.path() + systemFile->first.generic_string(),
+                                   userDir.path() + userFile->first.generic_string());
 
         std::cout << "System file: " << systemDir.path() << systemFile->first.generic_string()
                   << std::endl << "XXH64: " << systemFile->second << std::endl;
@@ -23,17 +34,16 @@ int main() {
                   << std::endl << "XXH64: " << userFile->second << std::endl;
         std::cout << std::endl;
 
-        auto file1 = std::filesystem::path(systemDir.path() + systemFile->first.generic_string());
-        auto file2 = std::filesystem::path(userDir.path() + userFile->first.generic_string());
-        auto chunks = compareFiles(file1, file2);
-
         for (auto chunk : chunks) {
             std::cout << systemDir.path() + systemFile->first.generic_string() << ": " << std::endl;
-            std::cout << showFileChunk(systemDir.path() + systemFile->first.generic_string(), 50, 50, chunk) << std::endl;
+            Borders aroundChunk = createBorders(50, 50);
+            const char* chunkStr = cgetFileChunk((systemDir.path() + systemFile->first.generic_string()).c_str(), &aroundChunk, &chunk);
+            std::cout << chunkStr << std::endl;
             std::cout << std::endl;
 
             std::cout << userDir.path() + userFile->first.generic_string() << ": " << std::endl;
-            std::cout << showFileChunk(userDir.path() + userFile->first.generic_string(), 50, 50, chunk) << std::endl;
+            chunkStr = cgetFileChunk((userDir.path() + userFile->first.generic_string()).c_str(), &aroundChunk, &chunk);
+            std::cout << chunkStr << std::endl;
             std::cout << std::endl;
         }
 
