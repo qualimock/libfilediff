@@ -2,9 +2,11 @@
 
 #include <filesystem>
 #include <map>
+#include <vector>
 
 //                    file path          file hash
 typedef std::map<std::filesystem::path, std::string> FilesMap;
+typedef std::vector<std::pair<std::streamoff, std::streamoff>> Chunks;
 
 class Directory {
     std::filesystem::path m_path;
@@ -20,6 +22,8 @@ public:
     void clear();
     bool load();
     bool load(const std::string& path);
+
+    Chunks compareFiles(const std::filesystem::path& file);
 
     Directory(const Directory&) = delete;
     Directory& operator=(const Directory&) = delete;
