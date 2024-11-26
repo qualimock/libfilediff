@@ -38,7 +38,7 @@ bool Directory::load() {
 
             return true;
         } else {
-            std::cerr << "Directory does not exist or is not a directory." << std::endl;
+            std::cerr << m_path << ": Directory does not exist or is not a directory." << std::endl;
         }
     } catch (const std::filesystem::filesystem_error& e) {
         std::cerr << "Filesystem error: " << e.what() << "\n";
