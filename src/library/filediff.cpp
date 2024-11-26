@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-std::string showFileChunk(const std::filesystem::path& file, unsigned left, unsigned right, std::pair<unsigned, unsigned> chunk) {
+std::string getFileChunk(const std::filesystem::path& file, unsigned left, unsigned right, std::pair<unsigned, unsigned> chunk) {
     unsigned from = chunk.first - left;
     unsigned to = chunk.second + right;
 
