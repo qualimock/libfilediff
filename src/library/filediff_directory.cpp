@@ -91,10 +91,10 @@ std::string Directory::computeHash(const std::string& file_path) {
     return result.str();
 }
 
-FilesMap Directory::compareDirectories(const Directory& directory) {
+FilesMap Directory::compare(const Directory &directory) {
     FilesMap diff;
-    std::set_symmetric_difference(files().begin(), files().end(),
-                                  directory.files().begin(), directory.files().end(),
-                                  std::inserter(diff, diff.begin()));
+    std::set_symmetric_difference(
+        files().begin(), files().end(), directory.files().begin(),
+        directory.files().end(), std::inserter(diff, diff.begin()));
     return diff;
 }
