@@ -4,9 +4,16 @@
 #include <fstream>
 #include <cstring>
 
-extern "C" Borders createBorders(long left, long right) {
-    Borders b{left, right};
-    return b;
+extern "C" {
+    Borders createBorders(long left, long right) {
+        Borders b{left, right};
+        return b;
+    }
+
+    const char* cgetFileChunk(const char* file, Borders* aroundChunk, Borders* chunkBorders) {
+        const char* chunk = strdup(getFileChunk(std::filesystem::path(file), aroundChunk, chunkBorders).c_str());
+        return chunk;
+    }
 }
 
 std::string getFileChunk(const std::filesystem::path& file, Borders* aroundChunk, Borders* chunk) {
@@ -30,11 +37,6 @@ std::string getFileChunk(const std::filesystem::path& file, Borders* aroundChunk
     }
 
     return buf;
-}
-
-extern "C" const char* cgetFileChunk(const char* file, Borders* aroundChunk, Borders* chunkBorders) {
-    const char* chunk = strdup(getFileChunk(std::filesystem::path(file), aroundChunk, chunkBorders).c_str());
-    return chunk;
 }
 
 std::vector<Borders> compareFiles(const std::filesystem::path& file1, const std::filesystem::path& file2) {
