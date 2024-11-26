@@ -1,5 +1,5 @@
 library_sources = [
-  'Directory.cpp',
+  'filediff_directory.cpp',
   'filediff.cpp',
 ]
 
@@ -11,6 +11,8 @@ library = shared_library(
   dependencies : [ xxhash_dep ],
   install : true
 )
+
+install_headers(['filediff_directory.h', 'filediff.h'])
 
 library_dep = declare_dependency(
   include_directories : include_directories('.'),

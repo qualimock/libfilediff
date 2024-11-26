@@ -1,4 +1,4 @@
-#include "filediff.hpp"
+#include "filediff.h"
 
 #include <iostream>
 #include <algorithm>

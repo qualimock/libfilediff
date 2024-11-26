@@ -1,4 +1,4 @@
-#include "Directory.hpp"
+#include "filediff_directory.h"
 
 #include <iostream>
 #include <fstream>

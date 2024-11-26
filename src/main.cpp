@@ -1,5 +1,5 @@
 #include <iostream>
-#include "library/filediff.hpp"
+#include "library/filediff.h"
 
 int main() {
     Directory systemDir;
