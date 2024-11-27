@@ -43,6 +43,15 @@ extern "C" {
 
         output_diff[count] = NULL;
     }
+
+    void ccompareFiles(Borders*& output_borders, const char* file1, const char* file2) {
+        std::vector<Borders> borders = compareFiles(file1, file2);
+        output_borders = (Borders*)malloc(sizeof(borders) * sizeof(Borders));
+
+        for (size_t i = 0; i < borders.size(); ++i) {
+            output_borders[i] = borders[i];
+        }
+    }
 }
 
 std::string getFileChunk(const std::filesystem::path& file, Borders* aroundChunk, Borders* chunk) {
