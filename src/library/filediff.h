@@ -10,9 +10,9 @@ extern "C" {
 
     Borders createBorders(long left, long right);
 
-    const char *cgetFileChunk(const char *file,
-                              Borders *aroundChunk,
-                              Borders *chunkBorders);
+    const char *cgetFileChunk(const char* file,
+                              Borders* aroundChunk,
+                              Borders* chunkBorders);
 
     // remember to free output_diff after usage
     void ccompareDirectories(char**& output_diff,
@@ -23,5 +23,10 @@ extern "C" {
     void ccompareFiles(Borders*& output_borders, const char* file1, const char* file2);
 }
 
-std::string getFileChunk(const std::filesystem::path& file, Borders* aroundChunk, Borders* chunkBorders);
-std::vector<Borders> compareFiles(const std::filesystem::path& file1, const std::filesystem::path& file2);
+std::string getFileChunk(const std::filesystem::path& file,
+                         Borders* aroundChunk,
+                         Borders* chunkBorders);
+
+
+std::vector<Borders> compareFiles(const std::filesystem::path& file1,
+                                  const std::filesystem::path& file2);
