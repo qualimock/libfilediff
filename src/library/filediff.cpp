@@ -8,7 +8,7 @@ Borders createBorders(long left, long right) {
     return b;
 }
 
-std::string getFileChunk(const std::filesystem::path& file, Borders* aroundChunk, Borders* chunk) {
+std::string getFileChunk(const fs::path& file, Borders* aroundChunk, Borders* chunk) {
     long from = chunk->left - aroundChunk->right;
     long to = chunk->left + aroundChunk->right;
 
@@ -31,7 +31,7 @@ std::string getFileChunk(const std::filesystem::path& file, Borders* aroundChunk
     return buf;
 }
 
-std::vector<Borders> compareFiles(const std::filesystem::path& file1, const std::filesystem::path& file2) {
+std::vector<Borders> compareFiles(const fs::path& file1, const fs::path& file2) {
     std::ifstream f1(file1, std::ios::binary | std::ios::ate);
     std::ifstream f2(file2, std::ios::binary | std::ios::ate);
 

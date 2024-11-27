@@ -9,10 +9,10 @@ typedef struct {
 
 Borders createBorders(long left, long right);
 
-std::string getFileChunk(const std::filesystem::path& file,
+std::string getFileChunk(const fs::path& file,
                          Borders* aroundChunk,
                          Borders* chunkBorders);
 
 
-std::vector<Borders> compareFiles(const std::filesystem::path& file1,
-                                  const std::filesystem::path& file2);
+std::vector<Borders> compareFiles(const fs::path& file1,
+                                  const fs::path& file2);

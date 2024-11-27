@@ -13,16 +13,16 @@ Directory::Directory(const std::string& path)
     : m_path(path)
 {
     if (m_path.generic_string().back() != '/') {
-        m_path = std::filesystem::path(m_path.generic_string() + '/');
+        m_path = fs::path(m_path.generic_string() + '/');
     }
 }
 
 bool Directory::load() {
     try {
-        if (std::filesystem::exists(m_path) && std::filesystem::is_directory(m_path)) {
-            for (const auto& entry : std::filesystem::directory_iterator(m_path)) {
-                if (std::filesystem::is_regular_file(entry.path())) {
-                    if (std::filesystem::is_symlink(entry.path())) {
+        if (fs::exists(m_path) && fs::is_directory(m_path)) {
+            for (const auto& entry : fs::directory_iterator(m_path)) {
+                if (fs::is_regular_file(entry.path())) {
+                    if (fs::is_symlink(entry.path())) {
                         std::cout << "Skipping symlink " << entry.path().generic_string() << std::endl;
                         continue;
                     }
@@ -40,7 +40,7 @@ bool Directory::load() {
         } else {
             std::cerr << m_path << ": Directory does not exist or is not a directory." << std::endl;
         }
-    } catch (const std::filesystem::filesystem_error& e) {
+    } catch (const fs::filesystem_error& e) {
         std::cerr << "Filesystem error: " << e.what() << "\n";
     }
 
@@ -48,7 +48,7 @@ bool Directory::load() {
 }
 
 bool Directory::load(const std::string &path) {
-    if (!(std::filesystem::exists(path) || std::filesystem::is_directory(path))) {
+    if (!(fs::exists(path) || fs::is_directory(path))) {
         std::cerr << "Cannot load " << path << std::endl;
         return false;
     }
