@@ -13,6 +13,11 @@ extern "C" {
     const char *cgetFileChunk(const char *file,
                               Borders *aroundChunk,
                               Borders *chunkBorders);
+
+    // remember to free output_diff after usage
+    void ccompareDirectories(char**& output_diff,
+                             const char* dir1,
+                             const char* dir2);
 }
 
 std::string getFileChunk(const std::filesystem::path& file, Borders* aroundChunk, Borders* chunkBorders);

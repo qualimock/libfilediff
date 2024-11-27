@@ -14,6 +14,35 @@ extern "C" {
         const char* chunk = strdup(getFileChunk(std::filesystem::path(file), aroundChunk, chunkBorders).c_str());
         return chunk;
     }
+
+    void ccompareDirectories(char**& output_diff, const char* dir1, const char* dir2) {
+        Directory d1(dir1);
+        Directory d2(dir2);
+
+        std::cout << "Loading directory " << dir1 << std::endl;
+        if (!d1.load()) {
+            std::cerr << "Cannot load " << dir1 << std::endl;
+            return;
+        }
+
+        std::cout << "Loading directory " << dir2 << std::endl;
+        if (!d2.load()) {
+            std::cerr << "Cannot load " << dir2 << std::endl;
+            return;
+        }
+
+        auto diff = d1.compare(d2);
+
+        output_diff = (char**)malloc((diff.size()+1) * sizeof(char*));
+
+        int count = 0;
+        for (auto file : diff) {
+            output_diff[count] = strdup(file.first.c_str());
+            count++;
+        }
+
+        output_diff[count] = NULL;
+    }
 }
 
 std::string getFileChunk(const std::filesystem::path& file, Borders* aroundChunk, Borders* chunk) {
