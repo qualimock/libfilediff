@@ -12,8 +12,8 @@ Directory::Directory()
 Directory::Directory(const std::string& path)
     : m_path(path)
 {
-    if (m_path.generic_string().back() != '/') {
-        m_path = fs::path(m_path.generic_string() + '/');
+    if (path.back() != '/') {
+        m_path = fs::path(path + '/');
     }
 }
 
@@ -54,7 +54,14 @@ bool Directory::load(const std::string &path) {
     }
 
     clear();
-    m_path = path;
+
+    if (path.back() != '/') {
+        m_path = fs::path(path + '/');
+    }
+    else {
+        m_path = fs::path(path);
+    }
+
     return load();
 }
 
