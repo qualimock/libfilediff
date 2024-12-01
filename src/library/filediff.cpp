@@ -9,8 +9,8 @@ Borders createBorders(long left, long right) {
 }
 
 std::string getFileChunk(const fs::path& file, Borders* aroundChunk, Borders* chunk) {
-    long from = chunk->left - aroundChunk->right;
-    long to = chunk->left + aroundChunk->right;
+    long from = chunk->left - aroundChunk->left - 1;
+    long to = chunk->right + aroundChunk->right;
 
     std::ifstream f(file, std::ios::binary | std::ios::ate);
 
@@ -24,7 +24,7 @@ std::string getFileChunk(const fs::path& file, Borders* aroundChunk, Borders* ch
     char byte;
     std::string buf;
 
-    while (f.get(byte) && f.tellg() != to+1) {
+    while (f.get(byte) && f.tellg() != to) {
         buf += byte;
     }
 
