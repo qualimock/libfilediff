@@ -9,7 +9,7 @@ library = shared_library(
   'filediff',
   library_sources,
   dependencies : [ xxhash_dep ],
-  version: '0.2.0',
+  version: '0.2.1',
   soversion : 0,
   install : true
 )
