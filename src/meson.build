@@ -1,5 +1,20 @@
-subdir('library')
+library_sources = [
+  'filediff_directory.cpp',
+  'filediff.cpp',
+]
 
-executable('filediff',
-           'main.cpp',
-           dependencies : library_dep)
+xxhash_dep = dependency('libxxhash', required : true)
+
+library = shared_library(
+  'filediff',
+  library_sources,
+  dependencies : [ xxhash_dep ],
+  install : true
+)
+
+install_headers(['filediff_directory.h', 'filediff.h'])
+
+library_dep = declare_dependency(
+  include_directories : include_directories('.'),
+  link_with : library
+)
