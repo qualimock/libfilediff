@@ -14,11 +14,6 @@ apt-get install meson libxxhash-devel
 ```
 
 ## Build and install
-libfilediff is available in ALT Sisyphus repository
-```
-apt-get install libfilediff libfilediff-devel
-```
-
 Clone the repository:
 ```
 git clone https://github.com/qualimock/libfilediff.git
